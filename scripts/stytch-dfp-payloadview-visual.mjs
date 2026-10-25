@@ -39,7 +39,10 @@ const html = `<!doctype html>
   th{background:#161b22;color:#8b949e;font-weight:normal;text-transform:uppercase;font-size:11px;letter-spacing:.5px}
   tr.tell td{background:#3a1414} tr.tell td.name{color:#ff7b72;font-weight:bold}
   h2{font-size:13px;color:#58a6ff;margin:18px 0 4px;letter-spacing:.5px}
+  h3{font-size:12px;color:#8b949e;margin:14px 0 2px;font-weight:normal;letter-spacing:.4px}
   .name{color:#a5d6ff;white-space:nowrap} .dim{color:#8b949e}
+  .big{background:#010409;border:1px solid #30363d;border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.7;margin:4px 0 16px}
+  .big b{color:#a5d6ff}
 </style></head>
 <body><div id="wrap">
   <h1>Stytch Device Fingerprinting — decrypted, readable payload</h1>
@@ -78,9 +81,24 @@ window.__run=async()=>{ try{
   window.__log('ok','[+] GetTID returned; '+window.__saLog.length+' signal records captured; POST intercepted (not forwarded)');
   window.__done=true;
 }catch(e){ window.__err=String(e); window.__log('bad','[!] '+String(e).slice(0,200)); } };
-window.__render=function(rows){
+window.__render=function(rows, wire){
   const out=document.getElementById('out');
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // ---- wire format panel (the actual shipped bytes, decrypted) ----
+  if (wire){
+    const h=document.createElement('h2'); h.textContent='WIRE FORMAT — what actually ships (decrypted)'; out.appendChild(h);
+    const d=document.createElement('div'); d.className='big';
+    d.innerHTML=
+      '<b>magic</b> <span class="hex">'+esc(wire.magic)+'</span> · <b>blob</b> '+wire.blobLen+'B · '+
+      '<b>payload</b> '+wire.payloadLen+'B · <b>session block</b> 64B<br>'+
+      '<b>nonce = AES-256-CBC IV (plaintext)</b> <span class="hex">'+esc(wire.nonce)+'</span><br>'+
+      '<b>session material[4:68]</b> <span class="hex">'+esc(wire.session)+'</span><br>'+
+      '<b>decrypted serialized payload (full hex)</b><br>'+
+      '<span class="hex" style="word-break:break-all;font-size:11px">'+esc(wire.serialHex)+'</span>';
+    out.appendChild(d);
+  }
+  // ---- semantic payload table (full values, nothing truncated) ----
+  const h=document.createElement('h2'); h.textContent='READABLE PAYLOAD — '+rows.length+' fields (captured via the SDK\\'s own sa() serializer)'; out.appendChild(h);
   const group=r=>/^fp_/.test(r.name)?'FINGERPRINT HASHES (/fp_/)':
     /^x_/.test(r.name)?'PLATFORM / UA-CH':
     /^screen_/.test(r.name)?'SCREEN':
@@ -89,13 +107,13 @@ window.__render=function(rows){
   const order=['FINGERPRINT HASHES (/fp_/)','BOT / HEADLESS TELLS','SCREEN','PLATFORM / UA-CH','TIMEZONE','SIGNALS'];
   const by=new Map(); for(const r of rows){const g=group(r);if(!by.has(g))by.set(g,[]);by.get(g).push(r);}
   for(const g of order){ const list=by.get(g); if(!list) continue;
-    const h=document.createElement('h2'); h.textContent=g+' ('+list.length+')'; out.appendChild(h);
+    const gh=document.createElement('h3'); gh.textContent=g+' ('+list.length+')'; gh.className='dim'; out.appendChild(gh);
     const t=document.createElement('table');
-    t.innerHTML='<tr><th>field</th><th>bytes</th><th>value</th></tr>';
+    t.innerHTML='<tr><th>field</th><th>bytes</th><th>value (full)</th></tr>';
     for(const r of list){
       const tell=(g==='BOT / HEADLESS TELLS');
-      const val=r.hex?('<span class="hex">0x'+esc(r.val.slice(0,64))+(r.val.length>64?'…':'')+'</span>')
-                     :esc(r.val.slice(0,180));
+      const val=r.hex?('<span class="hex">0x'+esc(r.val)+'</span>')
+                     :('<span>'+esc(r.val)+'</span>');
       t.insertAdjacentHTML('beforeend','<tr'+(tell?' class="tell"':'')+'><td class="name">'+esc(r.name)+
         '</td><td class="dim">'+r.vlen+'</td><td>'+val+'</td></tr>');
     }
@@ -127,7 +145,9 @@ await page.route('**/submit', async route => { captured = route.request().postDa
 await page.route('**/errors', r => r.fulfill({ status:200, contentType:'text/plain', body:'ok' }));
 
 await page.goto(`http://127.0.0.1:${PORT}/`, { waitUntil:'load' });
-await page.waitForFunction(()=>typeof window.telemetryjs==='function', { timeout:15000 }).catch(()=>{});
+page.on('pageerror', e => console.error('PAGEERROR:', String(e).slice(0,300)));
+await page.waitForFunction(()=>typeof window.telemetryjs==='function', { timeout:20000 }).catch(()=>{});
+await page.waitForFunction(()=>typeof window.__run==='function', { timeout:20000 }).catch(()=>{});
 await L('dim')('[*] SDK loaded · auto-running collection …');
 await page.evaluate(()=>window.__run());
 await page.waitForFunction(()=>window.__done===true || window.__err, { timeout:60000 }).catch(()=>{});
@@ -157,7 +177,8 @@ for (const s of saLog) {
 // dedupe (two serialization passes)
 const seen = new Set(); const dedup = rows.filter(r=>{ const k=r.name+'|'+r.val; if (seen.has(k)) return false; seen.add(k); return true; });
 
-// decrypt the real blob (correlate + show key/nonce)
+// decrypt the real blob (correlate + show key/nonce + raw wire bytes)
+let wire = null;
 if (captured && caps) {
   const blob = Buffer.from(captured.toString('utf8'),'base64');
   const key = Buffer.alloc(32);
@@ -167,15 +188,23 @@ if (captured && caps) {
   const pt = Buffer.concat([d.update(blob.subarray(80)), d.final()]);
   const pad = pt[pt.length-1];
   const body = pad && pad<=16 ? pt.subarray(0, pt.length-pad) : pt;
-  await step('ok','[+] decrypted real blob: magic '+body.subarray(0,4).toString('hex')+' (8e3421f0)');
-  await L('dim')('    blob '+blob.length+'B · nonce '+blob.subarray(64,80).toString('hex'));
+  wire = {
+    magic: body.subarray(0,4).toString('hex'),
+    blobLen: blob.length,
+    payloadLen: body.length - 68,
+    nonce: blob.subarray(64,80).toString('hex'),
+    session: body.subarray(4,68).toString('hex'),
+    serialHex: body.subarray(68).toString('hex'),
+  };
+  await step('ok','[+] decrypted real blob: magic '+wire.magic+' (8e3421f0)');
+  await L('dim')('    blob '+wire.blobLen+'B · payload '+wire.payloadLen+'B · nonce '+wire.nonce);
   await L('hex')('    AES-256 key = '+key.toString('hex'));
   mkdirSync('/tmp/opencode/stytch',{recursive:true});
   writeFileSync('/tmp/opencode/stytch/vis2-blob.bin', blob);
   writeFileSync('/tmp/opencode/stytch/vis2-key.hex', key.toString('hex')+'\n');
 }
-await step('acc','[*] rendering '+dedup.length+' readable records (deduped) …');
-await page.evaluate(r=>window.__render(r), dedup);
+await step('acc','[*] rendering '+dedup.length+' readable records + full decrypted wire bytes …');
+await page.evaluate(([r,w])=>window.__render(r,w), [dedup, wire]);
 await L('ok')('———— done · close the window to exit —————');
 
 browser.on('disconnected', ()=> process.exit(0));
