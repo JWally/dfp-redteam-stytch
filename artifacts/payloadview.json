@@ -1,0 +1,441 @@
+{
+  "state": {
+    "done": true
+  },
+  "magic": "8e3421f0",
+  "key": "08070724cee0f762721a736c9ebcb1c90f50fa95f02f71f0f31142832149b94c",
+  "rows": [
+    {
+      "name": "fp_audio",
+      "vlen": 17,
+      "val": "956.3163751662416",
+      "hex": false
+    },
+    {
+      "name": "fp_feats",
+      "vlen": 32,
+      "val": "267D5DF014358124B651A484AC018A95",
+      "hex": false
+    },
+    {
+      "name": "fp_perf",
+      "vlen": 18,
+      "val": "0.0999999046325684",
+      "hex": false
+    },
+    {
+      "name": "fp_feats2",
+      "vlen": 32,
+      "val": "D01ADD4D60E6B5BA0BEF3C6C83F1BBD4",
+      "hex": false
+    },
+    {
+      "name": "brand",
+      "vlen": 24,
+      "val": "HeadlessChrome/148/Linux",
+      "hex": false
+    },
+    {
+      "name": "fp_canvas",
+      "vlen": 10,
+      "val": "1174736476",
+      "hex": false
+    },
+    {
+      "name": "fp_fonts",
+      "vlen": 10,
+      "val": "-979314523",
+      "hex": false
+    },
+    {
+      "name": "fp_plugins",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "webgl",
+      "vlen": 115,
+      "val": "Google Inc. (Google) / ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "hex": false
+    },
+    {
+      "name": "fp_webgl",
+      "vlen": 11,
+      "val": "-1057794494",
+      "hex": false
+    },
+    {
+      "name": "fp_gpu",
+      "vlen": 32,
+      "val": "7D63950D9257302F22FA6E8EC8312DCE",
+      "hex": false
+    },
+    {
+      "name": "x_platform",
+      "vlen": 5,
+      "val": "Linux",
+      "hex": false
+    },
+    {
+      "name": "x_arch",
+      "vlen": 3,
+      "val": "x86",
+      "hex": false
+    },
+    {
+      "name": "x_bits",
+      "vlen": 2,
+      "val": "64",
+      "hex": false
+    },
+    {
+      "name": "x_model",
+      "vlen": 0,
+      "val": "",
+      "hex": true
+    },
+    {
+      "name": "x_pvers",
+      "vlen": 0,
+      "val": "",
+      "hex": true
+    },
+    {
+      "name": "x_uavers",
+      "vlen": 13,
+      "val": "148.0.7778.96",
+      "hex": false
+    },
+    {
+      "name": "x_fvlist",
+      "vlen": 72,
+      "val": "Chromium/148.0.7778.96;HeadlessChrome/148.0.7778.96;Not/A)Brand/99.0.0.0",
+      "hex": false
+    },
+    {
+      "name": "x_ffs",
+      "vlen": 7,
+      "val": "Desktop",
+      "hex": false
+    },
+    {
+      "name": "GLR",
+      "vlen": 4,
+      "val": "0.50",
+      "hex": false
+    },
+    {
+      "name": "DF",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "DX",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "VS",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "PTL",
+      "vlen": 86,
+      "val": "407:12,411:7,412:342,414:6,420:6,424:24,432:24,434:15,450:13,453:22,503:6,504:9,515:26",
+      "hex": false
+    },
+    {
+      "name": "tms",
+      "vlen": 3,
+      "val": "556",
+      "hex": false
+    },
+    {
+      "name": "PM",
+      "vlen": 1,
+      "val": "3",
+      "hex": false
+    },
+    {
+      "name": "CV",
+      "vlen": 6,
+      "val": "1.19.0",
+      "hex": false
+    },
+    {
+      "name": "platform",
+      "vlen": 12,
+      "val": "Linux x86_64",
+      "hex": false
+    },
+    {
+      "name": "UA",
+      "vlen": 113,
+      "val": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.7778.96 Safari/537.36",
+      "hex": false
+    },
+    {
+      "name": "cpus",
+      "vlen": 2,
+      "val": "12",
+      "hex": false
+    },
+    {
+      "name": "memory",
+      "vlen": 2,
+      "val": "32",
+      "hex": false
+    },
+    {
+      "name": "touch_points",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "language",
+      "vlen": 5,
+      "val": "en-US",
+      "hex": false
+    },
+    {
+      "name": "languages",
+      "vlen": 5,
+      "val": "en-US",
+      "hex": false
+    },
+    {
+      "name": "webdriver",
+      "vlen": 4,
+      "val": "true",
+      "hex": false
+    },
+    {
+      "name": "plugins",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "screen_width",
+      "vlen": 4,
+      "val": "1280",
+      "hex": false
+    },
+    {
+      "name": "screen_height",
+      "vlen": 3,
+      "val": "720",
+      "hex": false
+    },
+    {
+      "name": "screen_depth",
+      "vlen": 2,
+      "val": "24",
+      "hex": false
+    },
+    {
+      "name": "origin",
+      "vlen": 21,
+      "val": "http://127.0.0.1:8870",
+      "hex": false
+    },
+    {
+      "name": "screen_dpr",
+      "vlen": 1,
+      "val": "1",
+      "hex": false
+    },
+    {
+      "name": "tz",
+      "vlen": 15,
+      "val": "America/Chicago",
+      "hex": false
+    },
+    {
+      "name": "tz_offset",
+      "vlen": 3,
+      "val": "300",
+      "hex": false
+    },
+    {
+      "name": "if_flags",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "fp_audio",
+      "vlen": 17,
+      "val": "956.3163751662416",
+      "hex": false
+    },
+    {
+      "name": "fp_feats",
+      "vlen": 32,
+      "val": "267D5DF014358124B651A484AC018A95",
+      "hex": false
+    },
+    {
+      "name": "fp_perf",
+      "vlen": 18,
+      "val": "0.0999999046325684",
+      "hex": false
+    },
+    {
+      "name": "fp_feats2",
+      "vlen": 32,
+      "val": "D01ADD4D60E6B5BA0BEF3C6C83F1BBD4",
+      "hex": false
+    },
+    {
+      "name": "brand",
+      "vlen": 24,
+      "val": "HeadlessChrome/148/Linux",
+      "hex": false
+    },
+    {
+      "name": "fp_canvas",
+      "vlen": 10,
+      "val": "1174736476",
+      "hex": false
+    },
+    {
+      "name": "fp_fonts",
+      "vlen": 10,
+      "val": "-979314523",
+      "hex": false
+    },
+    {
+      "name": "fp_plugins",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "webgl",
+      "vlen": 115,
+      "val": "Google Inc. (Google) / ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "hex": false
+    },
+    {
+      "name": "fp_webgl",
+      "vlen": 11,
+      "val": "-1057794494",
+      "hex": false
+    },
+    {
+      "name": "fp_gpu",
+      "vlen": 32,
+      "val": "7D63950D9257302F22FA6E8EC8312DCE",
+      "hex": false
+    },
+    {
+      "name": "x_platform",
+      "vlen": 5,
+      "val": "Linux",
+      "hex": false
+    },
+    {
+      "name": "x_arch",
+      "vlen": 3,
+      "val": "x86",
+      "hex": false
+    },
+    {
+      "name": "x_bits",
+      "vlen": 2,
+      "val": "64",
+      "hex": false
+    },
+    {
+      "name": "x_model",
+      "vlen": 0,
+      "val": "",
+      "hex": true
+    },
+    {
+      "name": "x_pvers",
+      "vlen": 0,
+      "val": "",
+      "hex": true
+    },
+    {
+      "name": "x_uavers",
+      "vlen": 13,
+      "val": "148.0.7778.96",
+      "hex": false
+    },
+    {
+      "name": "x_fvlist",
+      "vlen": 72,
+      "val": "Chromium/148.0.7778.96;HeadlessChrome/148.0.7778.96;Not/A)Brand/99.0.0.0",
+      "hex": false
+    },
+    {
+      "name": "x_ffs",
+      "vlen": 7,
+      "val": "Desktop",
+      "hex": false
+    },
+    {
+      "name": "GLR",
+      "vlen": 4,
+      "val": "1.00",
+      "hex": false
+    },
+    {
+      "name": "DF",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "DX",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "VS",
+      "vlen": 1,
+      "val": "0",
+      "hex": false
+    },
+    {
+      "name": "PTL",
+      "vlen": 58,
+      "val": "409:6,412:14,414:7,424:22,432:25,450:7,453:20,504:8,516:36",
+      "hex": false
+    },
+    {
+      "name": "tms",
+      "vlen": 3,
+      "val": "180",
+      "hex": false
+    },
+    {
+      "name": "API_PUBLIC_TOKEN",
+      "vlen": 17,
+      "val": "public-token-test",
+      "hex": false
+    },
+    {
+      "name": "DECLARED_PLATFORM",
+      "vlen": 7,
+      "val": "UNKNOWN",
+      "hex": false
+    },
+    {
+      "name": "utc",
+      "vlen": 13,
+      "val": "1792945717030",
+      "hex": false
+    }
+  ]
+}
