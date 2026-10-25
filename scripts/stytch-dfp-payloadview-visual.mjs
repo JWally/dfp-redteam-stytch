@@ -17,6 +17,10 @@ import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { createDecipheriv } from 'node:crypto';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const PATCHED = readFileSync('/tmp/opencode/st-beautified-sa.js', 'utf8');
 const PORT = 8880;
@@ -205,6 +209,11 @@ if (captured && caps) {
 }
 await step('acc','[*] rendering '+dedup.length+' readable records + full decrypted wire bytes …');
 await page.evaluate(([r,w])=>window.__render(r,w), [dedup, wire]);
+await sleep(2500);
+mkdirSync(join(repoRoot,'screenshots'),{recursive:true});
+await page.screenshot({ path: join(repoRoot,'screenshots','stytch-full-payload.png'), fullPage:true });
+await page.screenshot({ path: join(repoRoot,'screenshots','stytch-view.png') });
+console.log('[+] screenshots saved: screenshots/stytch-full-payload.png, stytch-view.png');
 await L('ok')('———— done · close the window to exit —————');
 
 browser.on('disconnected', ()=> process.exit(0));

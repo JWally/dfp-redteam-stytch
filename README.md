@@ -106,6 +106,63 @@ Defensive framing — the same capability an attacker would use:
   **not** claiming a specific fraud verdict can be forged — we prove the
   *client-side* payload is readable and rewritable.
 
+## See it live — screenshot of the full payload
+
+![Stytch DFP — decrypted, readable payload (full page)](screenshots/stytch-full-payload.png)
+
+*Full-page capture of `scripts/stytch-dfp-payloadview-visual.mjs` (visible-browser demo): the decrypted wire format (magic `8e3421f0` · 64B session · plaintext nonce · full serialized hex) followed by all 49 readable payload records with the bot/headless tells highlighted. A fresh `1280B → AES-256-CBC → decrypt` run every time.*
+
+## What each field means
+
+| Field | Meaning |
+|---|---|
+| **Fingerprint hashes (`fp_*`)** | |
+| `fp_audio` | Audio-context fingerprint hash (OfflineAudioContext sample hashing) |
+| `fp_feats` / `fp_feats2` | Browser-feature hashes (32-hex) |
+| `fp_perf` | Performance-timing derived value |
+| `fp_canvas` | Canvas 2D fingerprint hash |
+| `fp_fonts` | Font-detection fingerprint hash |
+| `fp_plugins` | Plugins fingerprint |
+| `fp_webgl` | WebGL fingerprint hash |
+| `fp_gpu` | GPU / WebGL-renderer hash (32-hex) |
+| **Bot / headless tells** | |
+| `webdriver` | `navigator.webdriver` — `true` = automated browser ⚠️ |
+| `brand` | UA brand string, e.g. `Chromium/156/Linux`, `HeadlessChrome/…` ⚠️ |
+| `webgl` | WebGL renderer string — `SwiftShader` = software/headless GL ⚠️ |
+| `UA` | Full `navigator.userAgent` ⚠️ |
+| **Screen** | |
+| `screen_width/height` | `screen.width/height` |
+| `screen_depth` | `screen.colorDepth` |
+| `screen_dpr` | `window.devicePixelRatio` |
+| **Platform / UA-CH (`x_*`)** | |
+| `x_platform` | `navigator.platform` (`Linux x86_64`) |
+| `x_arch` | UA-CH `architecture` (`x86`) |
+| `x_bits` | UA-CH `bitness` (`64`) |
+| `x_model` / `x_pvers` | UA-CH `model` / `platformVersion` (empty on desktop) |
+| `x_uavers` | UA-CH `uaFullVersion` (`156.0.8078.4`) |
+| `x_fvlist` | UA-CH `fullVersionList` brands |
+| `x_ffs` | UA-CH `formFactors` (`Desktop`) |
+| **Timezone** | |
+| `tz` / `tz_offset` / `utc` | IANA zone, offset in minutes, epoch-ms timestamp |
+| **Signals** | |
+| `GLR` | GL renderer version |
+| `DF` / `DX` / `VS` | Boolean flag signals (observed `0`; exact meaning not decoded) |
+| `PTL` | Page-timing profile, `eventId:duration` pairs (two rounds) |
+| `tms` | Timing in ms (two rounds) |
+| `PM` | Page metric (observed `3`; not decoded) |
+| `CV` | SDK client version (`1.19.0`) |
+| `platform` | `navigator.platform` string |
+| `cpus` | `navigator.hardwareConcurrency` |
+| `memory` | `navigator.deviceMemory` (GB) |
+| `touch_points` | `navigator.maxTouchPoints` |
+| `language` / `languages` | Locale(s) |
+| `plugins` | `navigator.plugins.length` |
+| `origin` | Page origin |
+| `if_flags` | Iframe-related flags (observed `0`; not decoded) |
+| `API_PUBLIC_TOKEN` / `DECLARED_PLATFORM` | Config passed to `GetTID` in the demo |
+
+Marked ⚠️ = the classic headless/bot tells a fraud engine keys on — and the exact records the tamper PoC can flip before re-sealing with a fresh nonce. `DF/DX/VS/PM/if_flags` values are shown as-is; their exact semantics were not decoded.
+
 ## Repo layout & quick run
 
 ```
