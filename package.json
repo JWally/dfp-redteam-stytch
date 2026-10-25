@@ -1,0 +1,17 @@
+{
+  "name": "dfp-redteam-stytch-twilio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stytch DFP client-side drill-down (authorized, own-stack, 2026-10-25)",
+  "scripts": {
+    "capture": "node scripts/stytch-dfp-final.mjs",
+    "decrypt": "python3 scripts/stytch_dfp_decrypt.py",
+    "payloadview": "node scripts/stytch-dfp-payloadview.mjs",
+    "tamper": "node scripts/stytch-dfp-tamper.mjs",
+    "tamper:dump": "node scripts/stytch-dfp-tamper.mjs --dump"
+  },
+  "dependencies": {
+    "playwright": "^1"
+  }
+}
