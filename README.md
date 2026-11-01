@@ -112,6 +112,27 @@ Defensive framing — the same capability an attacker would use:
 
 *Full-page capture of `scripts/stytch-dfp-payloadview-visual.mjs` (visible-browser demo): the decrypted wire format (magic `8e3421f0` · 64B session · plaintext nonce · full serialized hex) followed by all 49 readable payload records with the bot/headless tells highlighted. A fresh `1280B → AES-256-CBC → decrypt` run every time.*
 
+## Demo video — the full decrypted payload
+
+**Watch the capture** (terminal capture of `scripts/demo-stytch.py` printing
+the full decrypted telemetry field tree — 49 readable records incl. the
+recovered AES key, canvas/webgl/audio hashes, UA + headless tells — no
+truncation):
+
+<img src="assets/videos/full-payload-demo.gif" width="720" alt="Stytch decrypted payload demo" />
+
+<video controls preload="metadata" width="720"><source src="assets/videos/full-payload-demo.mp4" type="video/mp4"></video>
+
+Reproduce it yourself:
+
+```bash
+python3 scripts/demo-stytch.py artifacts/payloadview.json
+```
+
+Full payload artifact: [payloadview.json](artifacts/payloadview.json) ·
+[FINAL_PLAINTEXT.bin](artifacts/FINAL_PLAINTEXT.bin) ·
+[aes_key.hex](artifacts/aes_key.hex)
+
 ## What each field means
 
 | Field | Meaning |
